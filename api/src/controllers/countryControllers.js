@@ -1,5 +1,6 @@
 const axios = require('axios');
-const {Country} = require ('../db.js')
+const {Country} = require ('../db.js');
+const {Op} = require('Sequelize')
     
 
 const getCountry = async (req , res) =>{
@@ -54,10 +55,41 @@ const getCountry = async (req , res) =>{
         }  
     }};
     
+    const getCountryById = async (req,res) =>{
+        
+        let {id} = req.params;
+        id = id.toUpperCase();
+        try{
+            const find = await Country.findByPk(id)
+            if(find) return res.status(200).json(find)
+            else return res.status(404).json("NO ENCONTRADO")
+        }catch(error){
+            return res.status(400).json(error)
+        }
+    }
+
+    const getCountryByName = async (req,res) =>{
+        console.log('GET COUNTRY BY NAME')
+        const toFind = req.query.name;
+        console.log(toFind)
+          
+          try{
+
+
+          }catch(error){
+
+            return res.status(400).json(error)
+
+          } 
+    }
     
     
 
 
 
 
-module.exports ={getCountry}
+module.exports ={
+    getCountry,
+    getCountryById, 
+    getCountryByName
+}

@@ -1,8 +1,10 @@
 const Router = require('express');
-const {getCountry} = require ('../controllers/countryControllers')
+const {getCountry, getCountryById , getCountryByName} = require ('../controllers/countryControllers')
 
 const router = Router()
 
-router.get('/' , getCountry)
+router.get('/country' , getCountry)
+router.get('/country/:id' , getCountryById)
+router.get ('/countryName' , getCountryByName)
 
 module.exports = router;
