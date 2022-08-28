@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
       type: DataTypes.REAL,
       allowNull: true
     },
-    poblacion:{
+    population:{
       type: DataTypes.INTEGER,
       allowNull: true
     }
