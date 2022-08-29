@@ -56,7 +56,10 @@ const getCountry = async (req , res) =>{
     }};
     
     const getCountryById = async (req,res) =>{
-        
+        // recibo el id por params.... a recordar... la ruta es country/pongo el id...
+        //el id son tres letras... que las paso a mayuscula... ej: ARG
+        // la busqueda se realiza desde sequelize ya que la api se carga en la base de datos 
+        //al iniciar....asi pide el pi
         let {id} = req.params;
         id = id.toUpperCase();
         try{
@@ -69,13 +72,24 @@ const getCountry = async (req , res) =>{
     }
 
     const getCountryByName = async (req,res) =>{
-        console.log('GET COUNTRY BY NAME')
+    
+    //uso el findAll, le paso como parametro el where y dentro de la propiedad que necesito buscar
+    //en este caso el name, uso el operador Op.Like de sequelize, que me permite usar los % es
+    //para que el macheo del comienzo y el del final. no sean necesariamente exactos
+    // y despues descubri el iLike, y se terminaron todos los problemas
+        
         const toFind = req.query.name;
-        console.log(toFind)
+        
           
           try{
-
-
+            const result = await Country.findAll({
+                where:{
+                    name:{
+                        [Op.iLike] : '%' + toFind + '%'
+                    }
+                }
+            })
+            return res.status(200).json(result)
           }catch(error){
 
             return res.status(400).json(error)

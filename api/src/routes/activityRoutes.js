@@ -3,6 +3,6 @@ const {getActivity} = require ('../controllers/activityControllers')
 
 const router = Router()
 
-router.get('/' , getActivity)
+router.post('/' , getActivity)
 
 module.exports = router;
