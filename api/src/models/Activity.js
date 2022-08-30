@@ -9,18 +9,20 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     difficulty:{
-        type: DataTypes.SMALLINT,
+        type: DataTypes.ENUM('1','2','3','4','5'),
         allowNull: false,
     },
     duration:{
-        type: DataTypes.TIME, // O que??
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     season:{
         type: DataTypes.ENUM('summer' , 'fall' , 'winter', 'spring'),
         allowNull: false,
     }
-  });
+  },
+    { timestamps: false }
+  );
 };
 
 
