@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {Country} = require ('../db.js');
+const {Country , Activity} = require ('../db.js');
 const {Op} = require('Sequelize')
     
 
@@ -42,7 +42,7 @@ const getCountry = async (req , res) =>{
                     image: t.image,
                     continent: t.continents,
                     capital: t.capital,
-                    subRegion: t.subregion,
+                    subregion: t.subregion,
                     area : t.area,
                     population: t.population
                 })
@@ -63,7 +63,11 @@ const getCountry = async (req , res) =>{
         let {id} = req.params;
         id = id.toUpperCase();
         try{
-            const find = await Country.findByPk(id)
+            const find = await Country.findByPk(id , 
+              {
+                include: Activity
+              }  
+            )
             if(find) return res.status(200).json(find)
             else return res.status(404).json("NO ENCONTRADO")
         }catch(error){

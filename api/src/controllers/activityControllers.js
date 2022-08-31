@@ -2,7 +2,7 @@ const axios = require('axios');
 const {Activity , Country} = require ('../db.js');
 
 
-const getActivity =  async (req, res) => {
+const createActivity =  async (req, res) => {
 
     //recibo mi actividad... hay una funcion que se encarga de verificar que esten todos los datos
     // y que me coincidan con los que corresponden a mi db , se utilizo el findOrCreate para evitar 
@@ -80,7 +80,7 @@ function checkBody  (name, difficulty, duration, season , countriesActivityid){
 
 
 
-module.exports ={getActivity}
+module.exports ={createActivity}
 
 // __POST /activities__:
 //   - Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body

@@ -1,6 +1,8 @@
 const initialState = {
-    country : [],
-    allCountry: []
+    country: [],
+    allCountry: [],
+    card: [],
+    activity: []
 
 }
 
@@ -13,6 +15,12 @@ function rootReducer( state = initialState , action) {
                 country: action.payload,
                 allCountry: action.payload
         }
+
+        case 'GET_CARD':
+            return{
+                ...state,
+                card: action.payload
+            }
         
         default:
             return state; 
