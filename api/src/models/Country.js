@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false
     },
-    subRegion:{
+    subregion:{
       type: DataTypes.STRING(30),
       allowNull: true
     },

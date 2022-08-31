@@ -26,7 +26,7 @@ const getCountry = async (req , res) =>{
                 image : e.flags[1],
                 continents : e.continents[0],
                 capital: e.capital ? e.capital[0] : "sin capital" ,
-                subRegion : e.subregion,
+                subregion : e.subregion,
                 area: e.area,
                 population: e.population
 
