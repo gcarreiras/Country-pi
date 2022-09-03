@@ -14,9 +14,10 @@ export default function CountryCard (props){
         dispatch(getCard(props.match.params.id)) // con las props accedo al id
     }, [dispatch])
 
-    const myCard = useSelector(state => state.card) // me traigo el detail con esto asi renderizo
     
-    const myActivity = useSelector(state => state.activity)
+    const myCard = useSelector(state => state.card) // me traigo el detail con esto asi renderizo
+    const act = useSelector(state=> state.act)
+  
     
     return(
         <div>
@@ -37,13 +38,24 @@ export default function CountryCard (props){
                 :<p> loading..... </p>
             }{
 
-
-                myActivity?
-                <>
                 
+                act === undefined ?
+                <>
+                    <h2>Activitys: </h2>
+                    {myCard.activities.map(act => {
+                        return(
+                        <div key={myCard.id} >
+                            <h3>Name: {act.name}</h3>
+                            <h3>Dificulty: {act.difficulty}</h3>
+                            <h3>Duration: {act.duration}</h3>
+                            <h3>Season: {act.season}</h3>
+                            <br/>
+                        </div>
+                        )
+                    })}
                 </>
 
-                :<>loading</>
+                :<>sin actividades</>
 
             }
 
@@ -52,10 +64,3 @@ export default function CountryCard (props){
     )
 }
 
-// - [ ] Los campos mostrados en la ruta principal para cada país (imagen de la bandera, nombre, código de país de 3 letras y continente)
-// - [ ] Código de país de 3 letras (id)
-// - [ ] Capital
-// - [ ] Subregión
-// - [ ] Área (Mostrarla en km2 o millones de km2)
-// - [ ] Población
-// - [ ] Actividades turísticas con toda su información asociada
