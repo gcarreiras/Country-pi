@@ -1,5 +1,4 @@
 import  axios  from 'axios';
-import CreateActivity from './../components/CreateActivity/CreateActivity';
 
 export function getCountries () {
     return async function (dispatch){
@@ -9,6 +8,16 @@ export function getCountries () {
             payload: json.data
         })
     }
+};
+
+export function getActivitys(){
+    return async function (dispatch){
+        const json = await axios.get('http://localhost:3001/activity')
+        return dispatch({
+            type: 'GET_ACTIVITYS',
+            payload: json.data 
+            })
+        }
 };
 
 export function getCard (id){

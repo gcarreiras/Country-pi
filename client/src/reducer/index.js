@@ -71,6 +71,14 @@ function rootReducer( state = initialState , action) {
                     ...state
                 }
             }
+
+        case 'GET_ACTIVITYS':
+            {
+                return{
+                    ...state,
+                    act : action.payload
+                }
+            }
             
         default:
                 return state; 

@@ -8,12 +8,13 @@ const createActivity =  async (req, res) => {
     // y que me coincidan con los que corresponden a mi db , se utilizo el findOrCreate para evitar 
     // duplicados, si la actividad ya se cargo....avisa que es duplicada con la variable created
    
-    const {name, difficulty, duration, season , countriesActivityid} = req.body;
+    const {name, difficulty, duration, season , country} = req.body;
     
-    const resultCheck = checkBody (name, difficulty, duration, season, countriesActivityid)
     
+    const resultCheck = checkBody (name, difficulty, duration, season, country)
+   
     if (resultCheck === 'ok'){
-
+                
         try{
             const [ activity , created] = await Activity.findOrCreate({
                 where:{
@@ -25,10 +26,9 @@ const createActivity =  async (req, res) => {
             })
 
             if (created){
-                for (let i = 0; i < countriesActivityid.length; i++) {
-                    
-                    let country = await Country.findByPk(countriesActivityid[i])
-                    await activity.addCountry(country)
+                for (let i = 0; i < country.length; i++) {
+                    let createCountry = await Country.findByPk(country[i])
+                    await activity.addCountry(createCountry)
                     
                 }
                 
@@ -48,9 +48,9 @@ const createActivity =  async (req, res) => {
 }
 
 
-function checkBody  (name, difficulty, duration, season , countriesActivityid){
+function checkBody  (name, difficulty, duration, season , country){
    
-    if (!name || !difficulty || !duration || !season || !countriesActivityid) return ('all data is required')
+    if (!name || !difficulty || !duration || !season || !country) return ('all data is required')
    
     if (name.length > 50) return ('name must be at least 50 characters long')
     
@@ -61,10 +61,12 @@ function checkBody  (name, difficulty, duration, season , countriesActivityid){
 // por si me olvido..... aca use una regular expresion, se pueden mandar derecho  tipo let re = /ab+c/;
 // o llamando a la funcion constructora que use... esta tiene varios metodos, entre ellos el test.... que es el que use
 // devuelve true o false, tmb comprobe la longitud y pase todo a mayuscula... si bien lo voy a comprobar en el front...
+
+
     charCheck = new RegExp('^[A-Z]+$', 'i')
-    for (let i = 0; i < countriesActivityid.length; i++) {
-        countriesActivityid[i] = countriesActivityid[i].toUpperCase()
-        if ((countriesActivityid[i].length !== 3) || (!charCheck.test(countriesActivityid[i]))) return ('invalid country id')
+    for (let i = 0; i < country.length; i++) {
+        country[i] = country[i].toUpperCase()
+        if ((country[i].length !== 3) || (!charCheck.test(country[i]))) return ('invalid country id')
     }
     
 
@@ -73,14 +75,28 @@ function checkBody  (name, difficulty, duration, season , countriesActivityid){
     for (let i = 0 ; i < seasonCheck.length ; i++){
         if (seasonCheck[i] === season) return ('ok')
     }
-     return('invalid season')
-                                                                                                                                      
+     return  ('invalid season')
+                 
+     
+}
+
+const getActivitys = async (req, res) =>{
+    console.log('GetActivity..... Entre')
+    try{
+       const arrayAct = await Activity.findAll({
+        include : Country
+       })
+
+       return res.status(200).json(arrayAct)
+
+    }catch(error){
+        return res.status(400).json(error)
+    }
 }
 
 
 
-
-module.exports ={createActivity}
+module.exports ={createActivity , getActivitys}
 
 // __POST /activities__:
 //   - Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body

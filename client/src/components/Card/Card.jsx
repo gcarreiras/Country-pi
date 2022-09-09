@@ -16,6 +16,8 @@ export default function CountryCard (props){
 
     
     const myCard = useSelector(state => state.card) // me traigo el detail con esto asi renderizo
+    
+    
     const act = useSelector(state=> state.act)
   
     
@@ -39,15 +41,15 @@ export default function CountryCard (props){
             }{
 
                 
-                act === undefined ?
+                act ?
                 <>
-                    <h2>Activitys: </h2>
+                    
                     {myCard.activities.map(act => {
                         return(
-                        <div key={myCard.id} >
-                            <h3>Name: {act.name}</h3>
-                            <h3>Dificulty: {act.difficulty}</h3>
-                            <h3>Duration: {act.duration}</h3>
+                            <div key={myCard.id} >
+                            <h2>Activity Name : {act.name} </h2>
+                            <h3>Dificulty: {act.difficulty} stars</h3>
+                            <h3>Duration: {act.duration} minutes</h3>
                             <h3>Season: {act.season}</h3>
                             <br/>
                         </div>

@@ -1,7 +1,7 @@
 import {React} from 'react';
 import {useState , useEffect } from 'react';
 import {useDispatch , useSelector} from 'react-redux';
-import {getCountries , filterOrder , filterContinent } from '../../actions';
+import {getCountries , filterOrder , filterContinent , getActivitys } from '../../actions';
 import {Link} from 'react-router-dom';
 import Cards  from '../Cards/Cards'
 import Paginado from '../Paginado/Paginado'
@@ -13,6 +13,11 @@ export default function Home (){
 const dispatch = useDispatch();
 
 const allCountries = useSelector(state => state.country);
+
+const arrayAct = useSelector(state => state.act)
+
+
+console.log (arrayAct)
 
 const [order, setOrder] = useState("")  //bueno... vacio
 const [currentPage, setCurrentPage] = useState(1); // aca empezamos de la pagina 1
@@ -32,38 +37,48 @@ if (currentPage === 1) {
 //aca de todoooos, los voy a cortar por el primero y el ultimo... osea.. los 8 que quiero mostrar
 
 const paginado = (pageNumbers) => {
-    setCurrentPage(pageNumbers);
-  };
+  setCurrentPage(pageNumbers);
+};
 
 useEffect( ()=> {
     dispatch(getCountries())
-}, [dispatch] )
+  }, [dispatch] )
 
-function handleClick(e) {
+  
+  function handleClick(e) {
     e.preventDefault();
     dispatch(getCountries());
     setCurrentPage(1);
-}
-
-function handleFilterOrder(e) {
-  e.preventDefault(); 
-  if (e.target.value === 'Sort by letter') handleClick(e)
-  else{
-    dispatch(filterOrder(e.target.value));
-    setCurrentPage(1); // y claro con razon no me andaba, con esto lo seteo
-    setOrder(`Ordenado ${e.target.value}`);
-  } 
-}
+  }
+  
+  function handleFilterOrder(e) {
+    e.preventDefault(); 
+    if (e.target.value === 'Sort by letter') handleClick(e)
+    else{
+      dispatch(filterOrder(e.target.value));
+      setCurrentPage(1); // y claro con razon no me andaba, con esto lo seteo
+      setOrder(`Ordenado ${e.target.value}`);
+    } 
+  }
 
 function handleFilterContinent (e){
   e.preventDefault();
   if (e.target.value === 'Order by Continent') handleClick(e)
   else{
-
+    
     dispatch(filterContinent(e.target.value));
     setCurrentPage(1);
     setOrder(`Ordenado ${e.target.value}`);
   }
+
+}
+
+useEffect( ()=> {
+  dispatch(getActivitys())
+}, [dispatch] )
+
+function handleSelectAct(e){
+  console.log('hola')
 }
 
 
@@ -97,6 +112,12 @@ return(
             
       </select>
 
+      <select onChange={e => handleSelectAct(e)}>
+                    {arrayAct?.map(a=> (
+                        <option key={a.id} value={a.name} >{a.name}</option>
+                    ))}
+                  
+        </select>
 
         <SearchBar> </SearchBar>
         <Paginado
@@ -120,5 +141,5 @@ return(
     </div>
 )
 
-
 }
+
