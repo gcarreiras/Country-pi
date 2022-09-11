@@ -79,6 +79,13 @@ function rootReducer( state = initialState , action) {
                     act : action.payload
                 }
             }
+        case 'NOT_FOUND':
+            {
+             alert(`Not Found : ${action.payload}`)
+             return {
+                ...state
+             }   
+            }
             
         default:
                 return state; 

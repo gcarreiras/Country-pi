@@ -24,10 +24,17 @@ export function getCard (id){
     return async function (dispatch){
         try{
             const response = await axios.get('http://localhost:3001/country/'+id)
-            return dispatch({
-                type : 'GET_CARD',
-                payload: response.data
-            })
+            if (response.data.length > 1){
+                return dispatch({
+                    type : 'GET_CARD',
+                    payload: response.data
+                })
+            }else{
+                return dispatch({
+                    type : 'NOT_FOUND',
+                    payload: id
+                })
+            }
         }catch(error){
             console.log(error)
         }
@@ -37,13 +44,25 @@ export function getCard (id){
 export function getCountryByName(name){
     
     return async function (dispatch){
-        
+        try{
             const response = await axios.get(`http://localhost:3001/countryName?name=${name}`)
-            
-            return dispatch({
-                type: 'GET_COUNTRY_BY_NAME',
-                payload: response.data
+            console.log('response data:' , response.data)
+            if (response.data.length > 0){
+
+                return dispatch({
+                    type: 'GET_COUNTRY_BY_NAME',
+                    payload: response.data
             })
+            }else{
+                return dispatch({
+                    type : 'NOT_FOUND',
+                    payload: name
+                })
+            }
+
+        }catch(error){
+            console.log(error)
+        }
        
 }
 };

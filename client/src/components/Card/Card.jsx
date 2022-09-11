@@ -18,7 +18,7 @@ export default function CountryCard (props){
     const myCard = useSelector(state => state.card) // me traigo el detail con esto asi renderizo
     
     
-    const act = useSelector(state=> state.act)
+    //const act = useSelector(state=> state.act)
   
     
     return(
@@ -26,7 +26,7 @@ export default function CountryCard (props){
             <Link to={'/Home'}>Back</Link>
             {
                 myCard ?
-                <>
+                <div key={myCard.id}>
                    <h2>Name: {myCard.name}</h2>
                    <h3>Country Code: {myCard.id}</h3>
                    <img src={myCard.image} alt = "Img Not Found" width="600px" height="350px"/>
@@ -35,18 +35,12 @@ export default function CountryCard (props){
                     <h4>Subregion: {myCard.subregion}</h4>
                     <h4>Area: {myCard.area} km2</h4>
                     <h4>Population: {myCard.population}</h4>
-                </>
+                    <br/>
+                    <br/>
 
-                :<p> loading..... </p>
-            }{
-
-                
-                act ?
-                <>
-                    
                     {myCard.activities.map(act => {
                         return(
-                            <div key={myCard.id} >
+                            <div key={act.name} >
                             <h2>Activity Name : {act.name} </h2>
                             <h3>Dificulty: {act.difficulty} stars</h3>
                             <h3>Duration: {act.duration} minutes</h3>
@@ -55,10 +49,10 @@ export default function CountryCard (props){
                         </div>
                         )
                     })}
-                </>
 
-                :<>sin actividades</>
+                </div>
 
+                :<p> loading..... </p>
             }
 
             

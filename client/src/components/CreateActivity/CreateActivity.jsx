@@ -1,7 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import {Link , useHistory} from 'react-router-dom';
 import {getCountries , createActivity} from '../../actions';
-import { ReactReduxContext, useDispatch , useSelector } from 'react-redux';
+import {useDispatch , useSelector } from 'react-redux';
 import './CreateActivity.css'
 
 export default function CreateActivity (){
@@ -28,10 +28,10 @@ let allCountriesSort = allCountries.sort(function (a, b) {
 
   const [input , setInput] = useState({
     name: "",
-    durationHr: "",
-    durationMin: "",
+    durationHr: 0,
+    durationMin: 0,
     season:"",
-    difficulty: 1,
+    difficulty: 0,
     country:[]
   })
 
@@ -64,8 +64,28 @@ let allCountriesSort = allCountries.sort(function (a, b) {
 
 function checkFunction(){
 
+    if (input.name.length < 3){
+        alert ('name must be more large 🤷‍♂️')
+        return false
+    }
     if (input.name. length > 50 ){
         alert ('name must be more short 🤷‍♂️')
+        return false
+    }
+    if ((input.durationHr < 1) && (input.durationMin < 1)){
+        alert ('invalid time.....')
+        return false
+    }
+    if (input.difficulty === 0) {
+        alert ('choose a difficulty')
+        return false
+    }
+    if (input.season.length < 1 ){
+        alert ('choose a season for the activity')
+        return false      
+    }
+    if (input.country.length === 0){
+        alert ('choose a country for the activity')
         return false
     }
     
@@ -81,10 +101,10 @@ function handleSubmit(e){
         alert("successful creation!!")
         setInput({
             name: "",
-            durationHr: "",
-            durationMin: "",
+            durationHr: 0,
+            durationMin: 0,
             season:"",
-            difficulty: 1,
+            difficulty: 0,
             country:[]
         })
         history.push('/home')
