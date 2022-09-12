@@ -63,15 +63,12 @@ useEffect( ()=> {
 
 function handleFilterContinent (e){
   e.preventDefault();
-  if (e.target.value === 'Order by Continent') handleClick(e)
-  else{
-    
     dispatch(filterContinent(e.target.value));
     setCurrentPage(1);
     setOrder(`Ordenado ${e.target.value}`);
   }
 
-}
+
 
 function handleFilterPopu(e){
   e.preventDefault();
