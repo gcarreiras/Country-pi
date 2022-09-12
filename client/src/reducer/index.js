@@ -86,6 +86,34 @@ function rootReducer( state = initialState , action) {
                 ...state
              }   
             }
+        case 'FILTER_BY_POPULATION':
+            {
+                console.log('FILTER_BY_POPULATION' , action.payload)
+                console.log(state.country)
+                let sortArr = action.payload === 'Min' ?
+                state.country.sort(function(a, b){
+                    if(a.population > b.population){
+                        return 1;
+                    }
+                    if(b.population > a.population){
+                        return -1;
+                    }
+                    return 0;
+                    }) :
+                state.country.sort(function(a,b){
+                    if(a.population > b.population){
+                        return -1;
+                    }
+                    if(b.population> a.population){
+                        return 1;
+                    }
+                    return 0;
+                })
+        return{
+                ...state,
+                country: sortArr
+            }
+            }
             
         default:
                 return state; 

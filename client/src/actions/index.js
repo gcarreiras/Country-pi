@@ -24,17 +24,10 @@ export function getCard (id){
     return async function (dispatch){
         try{
             const response = await axios.get('http://localhost:3001/country/'+id)
-            if (response.data.length > 1){
                 return dispatch({
                     type : 'GET_CARD',
                     payload: response.data
                 })
-            }else{
-                return dispatch({
-                    type : 'NOT_FOUND',
-                    payload: id
-                })
-            }
         }catch(error){
             console.log(error)
         }
@@ -80,6 +73,13 @@ export function filterContinent(payload){
         payload
     }
 };
+
+export function filterByPopulation(payload){
+    return {
+        type: 'FILTER_BY_POPULATION',
+        payload
+    }
+}
 
 export function createActivity (payload){
     return async function (dispatch){

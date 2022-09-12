@@ -1,7 +1,7 @@
 import {React} from 'react';
 import {useState , useEffect } from 'react';
 import {useDispatch , useSelector} from 'react-redux';
-import {getCountries , filterOrder , filterContinent , getActivitys } from '../../actions';
+import {getCountries , filterOrder , filterContinent , getActivitys, filterByPopulation } from '../../actions';
 import {Link} from 'react-router-dom';
 import Cards  from '../Cards/Cards'
 import Paginado from '../Paginado/Paginado'
@@ -73,6 +73,13 @@ function handleFilterContinent (e){
 
 }
 
+function handleFilterPopu(e){
+  e.preventDefault();
+  dispatch(filterByPopulation(e.target.value))
+  setCurrentPage(1);
+  setOrder(`Ordenado ${e.target.value}`)
+}
+
 useEffect( ()=> {
   dispatch(getActivitys())
 }, [dispatch] )
@@ -109,10 +116,17 @@ return(
             <option value="North America"> North America </option>
             <option value="Europe"> Europe </option>
             <option value="Africa"> Africa </option>
-            
+      </select>
+
+      <select onChange={e => handleFilterPopu(e)}>
+        <option value="orderByPopu"> Order by Population</option>
+        <option value="Min">Min</option>
+        <option value="Max">Max</option>
+      
       </select>
 
       <select onChange={e => handleSelectAct(e)}>
+      <option>Activities</option> 
                     {arrayAct?.map(a=> (
                         <option key={a.id} value={a.name} >{a.name}</option>
                     ))}
